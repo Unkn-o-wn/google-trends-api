@@ -226,12 +226,17 @@ export function getInterestResults(request) {
       category: obj.category,
       property: obj.property,
     };
+    const includeLowSearchVolumeGeos = (obj.includeLowSearchVolumeGeos) ?
+        obj.includeLowSearchVolumeGeos : false;
+
+    delete obj.includeLowSearchVolumeGeos;
 
     if (searchType === 'Interest by region' &&
         obj.resolution !== 'CITY') {
       req.includeLowSearchVolumeGeos = false;
-    }else {
-      req.includeLowSearchVolumeGeos = obj.includeLowSearchVolumeGeos;
+    } else if (searchType === 'Interest by region' &&
+        obj.resolution === 'CITY') {
+      req.includeLowSearchVolumeGeos = includeLowSearchVolumeGeos;
     }
 
     const options = {
@@ -246,9 +251,6 @@ export function getInterestResults(request) {
     };
 
     if (obj.agent) options.agent = obj.agent;
-    console.log('============================' +
-        '===================================');
-    console.log(options);
 
     const { path, resolution, _id } = map[searchType];
 
@@ -256,9 +258,6 @@ export function getInterestResults(request) {
     .then((results) => {
       const parsedResults = parseResults(results);
 
-      console.log('============================' +
-          '===================================');
-      console.log('parseResults', parsedResults);
       /**
        * Search for the id that matches the search result
        * Auto complete does not have results on initial query
@@ -281,9 +280,6 @@ export function getInterestResults(request) {
       let req = resultObj.request;
       const token = resultObj.token;
 
-      console.log('============================' +
-          '===================================');
-      console.log('req', req);
       if (resolution) req.resolution = resolution;
       req.requestOptions.category = obj.category;
       req.requestOptions.property = obj.property;
@@ -291,16 +287,11 @@ export function getInterestResults(request) {
       if (searchType === 'Interest by region' &&
           obj.resolution !== 'CITY') {
         req.includeLowSearchVolumeGeos = false;
-      }else {
-        req.includeLowSearchVolumeGeos = obj.includeLowSearchVolumeGeos;
+      } else if (searchType === 'Interest by region' &&
+          obj.resolution === 'CITY') {
+        req.includeLowSearchVolumeGeos = includeLowSearchVolumeGeos;
       }
-      console.log('============================' +
-          '===================================');
-      console.log('req', req);
       req = JSON.stringify(req);
-      console.log('============================' +
-          '===================================');
-      console.log('req', req);
 
       const nextOptions = {
         path,
