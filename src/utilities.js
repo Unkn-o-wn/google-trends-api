@@ -257,7 +257,9 @@ export function getInterestResults(request) {
     .then((results) => {
       const parsedResults = parseResults(results);
 
-      console.log(parsedResults);
+      console.log('============================' +
+          '===================================');
+      console.log('parseResults', parsedResults);
       /**
        * Search for the id that matches the search result
        * Auto complete does not have results on initial query
@@ -280,7 +282,9 @@ export function getInterestResults(request) {
       let req = resultObj.request;
       const token = resultObj.token;
 
-      console.log(req);
+      console.log('============================' +
+          '===================================');
+      console.log('req', req);
       if (resolution) req.resolution = resolution;
       req.requestOptions.category = obj.category;
       req.requestOptions.property = obj.property;
@@ -307,6 +311,9 @@ export function getInterestResults(request) {
         /** JSON.parse will decode unicode */
         const results = JSON.stringify(JSON.parse(res.slice(5)));
 
+        console.log('============================' +
+            '===================================');
+        console.log('result', results);
         return results;
       } catch (e) {
         /** throws if not valid JSON, so just return unaltered res string */
