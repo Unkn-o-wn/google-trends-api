@@ -257,6 +257,7 @@ export function getInterestResults(request) {
     .then((results) => {
       const parsedResults = parseResults(results);
 
+      console.log(parsedResults);
       /**
        * Search for the id that matches the search result
        * Auto complete does not have results on initial query
@@ -279,6 +280,7 @@ export function getInterestResults(request) {
       let req = resultObj.request;
       const token = resultObj.token;
 
+      console.log(req);
       if (resolution) req.resolution = resolution;
       req.requestOptions.category = obj.category;
       req.requestOptions.property = obj.property;
