@@ -233,7 +233,6 @@ export function getInterestResults(request) {
     }else {
       req.includeLowSearchVolumeGeos = obj.includeLowSearchVolumeGeos;
     }
-    delete obj.includeLowSearchVolumeGeos;
 
     const options = {
       method: 'GET',
@@ -288,6 +287,13 @@ export function getInterestResults(request) {
       if (resolution) req.resolution = resolution;
       req.requestOptions.category = obj.category;
       req.requestOptions.property = obj.property;
+
+      if (searchType === 'Interest by region' &&
+          obj.resolution !== 'CITY') {
+        req.includeLowSearchVolumeGeos = false;
+      }else {
+        req.includeLowSearchVolumeGeos = obj.includeLowSearchVolumeGeos;
+      }
       req = JSON.stringify(req);
 
       const nextOptions = {
@@ -311,9 +317,6 @@ export function getInterestResults(request) {
         /** JSON.parse will decode unicode */
         const results = JSON.stringify(JSON.parse(res.slice(5)));
 
-        console.log('============================' +
-            '===================================');
-        console.log('result', results);
         return results;
       } catch (e) {
         /** throws if not valid JSON, so just return unaltered res string */
