@@ -238,11 +238,6 @@ export function getInterestResults(request) {
 
     if (obj.agent) options.agent = obj.agent;
     if (searchType === 'Interest by region' &&
-        obj.includeLowSearchVolumeGeos &&
-        obj.resolution !== 'CITY') {
-      delete obj.includeLowSearchVolumeGeos;
-    }
-    if (searchType === 'Interest by region' &&
         obj.resolution === 'CITY') {
       options.qs.includeLowSearchVolumeGeos = false;
     }
@@ -251,6 +246,9 @@ export function getInterestResults(request) {
         obj.includeLowSearchVolumeGeos) {
       options.qs.includeLowSearchVolumeGeos = obj.includeLowSearchVolumeGeos;
     }
+    console.log('============================' +
+        '===================================');
+    console.log(options);
 
     const { path, resolution, _id } = map[searchType];
 
