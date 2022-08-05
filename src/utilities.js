@@ -294,7 +294,13 @@ export function getInterestResults(request) {
       }else {
         req.includeLowSearchVolumeGeos = obj.includeLowSearchVolumeGeos;
       }
+      console.log('============================' +
+          '===================================');
+      console.log('req', req);
       req = JSON.stringify(req);
+      console.log('============================' +
+          '===================================');
+      console.log('req', req);
 
       const nextOptions = {
         path,
