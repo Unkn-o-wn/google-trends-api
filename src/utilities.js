@@ -239,12 +239,13 @@ export function getInterestResults(request) {
     if (obj.agent) options.agent = obj.agent;
     if (searchType === 'Interest by region' &&
         obj.resolution === 'CITY') {
-      options.qs.includeLowSearchVolumeGeos = false;
+      options.qs.req.includeLowSearchVolumeGeos = false;
     }
     if (searchType === 'Interest by region' &&
         obj.resolution === 'CITY' &&
         obj.includeLowSearchVolumeGeos) {
-      options.qs.includeLowSearchVolumeGeos = obj.includeLowSearchVolumeGeos;
+      options.qs.req
+          .includeLowSearchVolumeGeos = obj.includeLowSearchVolumeGeos;
     }
     console.log('============================' +
         '===================================');
