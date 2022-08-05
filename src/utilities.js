@@ -233,6 +233,7 @@ export function getInterestResults(request) {
     }else {
       req.includeLowSearchVolumeGeos = obj.includeLowSearchVolumeGeos;
     }
+    delete obj.includeLowSearchVolumeGeos;
 
     const options = {
       method: 'GET',
