@@ -221,9 +221,17 @@ export function getInterestResults(request) {
       },
     };
 
+    const req = {
+      comparisonItem: formatComparisonItems(obj),
+      category: obj.category,
+      property: obj.property,
+    };
+
     if (searchType === 'Interest by region' &&
         obj.resolution !== 'CITY') {
-      obj.includeLowSearchVolumeGeos = false;
+      req.includeLowSearchVolumeGeos = false;
+    }else {
+      req.includeLowSearchVolumeGeos = obj.includeLowSearchVolumeGeos;
     }
 
     const options = {
@@ -232,11 +240,7 @@ export function getInterestResults(request) {
       path: '/trends/api/explore',
       qs: {
         hl: obj.hl,
-        req: JSON.stringify({
-          comparisonItem: formatComparisonItems(obj),
-          category: obj.category,
-          property: obj.property,
-        }),
+        req: JSON.stringify(req),
         tz: obj.timezone,
       },
     };
