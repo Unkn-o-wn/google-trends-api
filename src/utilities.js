@@ -221,6 +221,11 @@ export function getInterestResults(request) {
       },
     };
 
+    if (searchType === 'Interest by region' &&
+        obj.resolution !== 'CITY') {
+      obj.includeLowSearchVolumeGeos = false;
+    }
+
     const options = {
       method: 'GET',
       host: 'trends.google.com',
@@ -237,16 +242,6 @@ export function getInterestResults(request) {
     };
 
     if (obj.agent) options.agent = obj.agent;
-    if (searchType === 'Interest by region' &&
-        obj.resolution === 'CITY') {
-      options.qs.req['includeLowSearchVolumeGeos'] = false;
-    }
-    if (searchType === 'Interest by region' &&
-        obj.resolution === 'CITY' &&
-        obj.includeLowSearchVolumeGeos) {
-      options.qs
-          .req['includeLowSearchVolumeGeos'] = obj.includeLowSearchVolumeGeos;
-    }
     console.log('============================' +
         '===================================');
     console.log(options);
