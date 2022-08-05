@@ -104,7 +104,6 @@ export function constructInterestObj(obj, cbFunc) {
   if (!obj.hl) obj.hl = 'en-US';
   if (!obj.category) obj.category = 0;
   if (!obj.timezone) obj.timezone = new Date().getTimezoneOffset();
-  if (!obj.includeLowSearchVolumeGeos) obj.includeLowSearchVolumeGeos = false;
 
   const possibleProperties = ['images', 'news', 'youtube', 'froogle', ''];
 
@@ -233,14 +232,24 @@ export function getInterestResults(request) {
           category: obj.category,
           property: obj.property,
         }),
-        includeLowSearchVolumeGeos: obj.includeLowSearchVolumeGeos,
         tz: obj.timezone,
       },
     };
 
     if (obj.agent) options.agent = obj.agent;
-    if (obj.resolution !== 'CITY') {
+    if (searchType === 'Interest by region' &&
+        obj.includeLowSearchVolumeGeos &&
+        obj.resolution !== 'CITY') {
+      delete obj.includeLowSearchVolumeGeos;
+    }
+    if (searchType === 'Interest by region' &&
+        obj.resolution === 'CITY') {
       options.qs.includeLowSearchVolumeGeos = false;
+    }
+    if (searchType === 'Interest by region' &&
+        obj.resolution === 'CITY' &&
+        obj.includeLowSearchVolumeGeos) {
+      options.qs.includeLowSearchVolumeGeos = obj.includeLowSearchVolumeGeos;
     }
 
     const { path, resolution, _id } = map[searchType];
